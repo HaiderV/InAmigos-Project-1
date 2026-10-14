@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InAmigos Foundation - Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    
+    
+  <!-- Top Utility Bar -->
+  <div class="top-bar">
+    <div class="top-bar-container">
+      <div class="top-bar-left">
+        <span><i class="fa-regular fa-envelope"></i> support@inamigosfoundation.org.in</span>
+        <span><i class="fa-solid fa-phone"></i> +91 626 730 9902</span>
+        <span><i class="fa-regular fa-clock"></i> Mon - Fri: 9AM - 6PM</span>
+      </div>
+      <div class="top-bar-right">
+        <span>Connect With Us:</span>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/inamigos.inamigos" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://twitter.com/inamigos" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="https://www.instagram.com/inamigos/" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/inamigos-foundation" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Logo & Brand Name -->
+      <a href="index.html" class="logo-container">
+        <img src="logo.png" alt="InAmigos Foundation Logo">
+        <div class="logo-text">
+          <span class="brand-name">In<span class="highlight">Amigos</span></span>
+          <span class="brand-tagline">Foundation</span>
+        </div>
+      </a>
+
+      <!-- Centered Navigation Menu -->
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="gallery.html" class="active" aria-current="page">Gallery</a></li>
+        </ul>
+      </nav>
+
+      <!-- CTA Button & Mobile Toggle -->
+      <div class="header-actions">
+        <a href="#" class="donate-btn">
+          <i class="fa-solid fa-heart"></i> Make A Donate
+        </a>
+        <button class="mobile-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" onclick="toggleMenu()">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+
+<!-- Pure Photo Gallery Section -->
+  <main class="gallery-section">
+    <div class="gallery-container">
+      
+      <!-- Photo Grid Container -->
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Photos will be automatically rendered here by JavaScript -->
+      </div>
+
+      <!-- Load More Button -->
+      <div class="gallery-actions" id="galleryActions">
+        <button id="loadMoreBtn" class="btn-load-more">Load More Photos</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Gallery JavaScript Logic -->
+  <script>
+    // ============================================================
+    // ADD YOUR IMAGE URLS HERE
+    // Simply add or replace image links inside this array list.
+    // ============================================================
+    const imageList = [
+      "https://inamigosfoundation.org.in/public/storage/gallery/1743051449.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1743051438.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1743051382.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738299164.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738238755.JPG",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738238744.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738238725.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738054473.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738054458.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738054440.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1738048982.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908498.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908483.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908391.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908380.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908369.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908359.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908350.jpg",
+      "https://inamigosfoundation.org.in/public/storage/gallery/1690908247.jpeg",
+
+    ];
+
+    const batchSize = 10;
+    let currentIndex = 0;
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+    function loadImages() {
+      const nextBatch = imageList.slice(currentIndex, currentIndex + batchSize);
+
+      nextBatch.forEach(url => {
+        const card = document.createElement('div');
+        card.className = 'gallery-photo-card';
+
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'InAmigos Foundation Photo';
+        img.loading = 'lazy';
+
+        card.appendChild(img);
+        galleryGrid.appendChild(card);
+      });
+
+      currentIndex += nextBatch.length;
+
+      // Hide load button if all images are displayed
+      if (currentIndex >= imageList.length) {
+        loadMoreBtn.style.display = 'none';
+      }
+    }
+
+    // Initial load of first 10 images
+    loadImages();
+
+    // Event listener for Load More button
+    loadMoreBtn.addEventListener('click', loadImages);
+  </script>
+
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      
+      <!-- Column 1: Organization Summary & Badges -->
+      <div class="footer-col footer-about">
+        <a class="footer-brand" href="#home" aria-label="InAmigos Foundation home">
+          <img src="logo.png" alt="">
+          <span>InAmigos<br>Foundation</span>
+        </a>
+        <p>
+          Founded on September 23, 2020, by Mr. Govind Shukla (Founder & CEO). A Section 8 licensed non-profit organization dedicated to fostering positive social transformation across India through education, relief, and empowerment initiatives.
+        </p>
+        <div class="footer-badges">
+          <span class="footer-badge">Section 8</span>
+          <span class="footer-badge">80G & 12A Certified</span>
+          <span class="footer-badge">CSR-1 Registered</span>
+          <span class="footer-badge">NITI Aayog</span>
+          <span class="footer-badge">ISO 9001:2015</span>
+        </div>
+      </div>
+
+      <!-- Column 2: Navigation Links -->
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#initiatives">Our Causes</a></li>
+          <li><a href="#volunteers">Our Team</a></li>
+          <li><a href="#events">Recent Events</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Key Initiatives -->
+      <div class="footer-col">
+        <h4>Key Initiatives</h4>
+        <ul class="footer-links">
+          <li><a href="#initiatives">Project Seva</a></li>
+          <li><a href="#initiatives">Project Bachpanshala</a></li>
+          <li><a href="#initiatives">Project Jeev</a></li>
+          <li><a href="#initiatives">Project Udaan</a></li>
+          <li><a href="#initiatives">Project Prakriti</a></li>
+          <li><a href="#initiatives">Project Vikas</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact & Social Info -->
+      <div class="footer-col">
+        <h4>Reach Us</h4>
+        <ul class="footer-contact-list">
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query=Ward+No.+5%2C+Gram+Post%2C+Sipat+Ujwal+Nagar%2C+Bilaspur%2C+Chhattisgarh+495555" target="_blank" rel="noopener noreferrer">Ward No. 5, Gram Post, Sipat Ujwal Nagar, Bilaspur, Chhattisgarh – 495555</a>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <a href="tel:+916267309902">+91 626 730 9902</a>
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope"></i>
+            <a href="mailto:support@inamigosfoundation.org.in">support@inamigosfoundation.org.in</a>
+          </li>
+        </ul>
+
+        <!-- Social Media Profiles -->
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/inamigos.inamigos" class="social-icon" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/inamigos/" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/inamigos-foundation" class="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright Bar -->
+    <div class="footer-bottom">
+      <p>&copy; 2026 InAmigos Foundation. All Rights Reserved.</p>
+      <div>
+        <a href="#home">Back to top</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
